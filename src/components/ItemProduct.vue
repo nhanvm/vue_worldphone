@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="col-md-3">
     <div class="card pt-5 pb-4 font-weight-bold rounded-5">
       <img :src="require(`@/assets/${itemProduct.img}`)" />
@@ -6,22 +6,25 @@
         <span @click="toDetail">{{ itemProduct.name }}</span>
       </h5>
       <p class="card-text text-info">{{ itemProduct.style }}</p>
-      <p>Price: <span class="text-danger">{{ itemProduct.price }} $</span></p>
+      <p>Price: <span class="text-danger">{{ formatPrice(itemProduct.price) }}</span></p>
       <span class="like">
         <font-awesome-icon @click="toggleLikeItem" v-if='itemProduct.like === false' :icon="['fas', 'heart-broken']" />
         <font-awesome-icon @click="toggleLikeItem" v-else :icon="['fas', 'heart']" />
       </span>
-      <button type="button" class="close" aria-label="Close" v-on:click="deleteItem">
+      <!-- <button type="button" class="close" aria-label="Close" v-on:click="deleteItem">
         <span aria-hidden="true">&times;</span>
-      </button>
+      </button> -->
       <button @click="addToCard(itemProduct.id)" type="button" class="btn btn-success mx-auto">Add To Cart</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mixinFindIndex } from './../mixins/mixinFindIndex'
+import { mixinFormatPrice } from './../mixins/minixFormatPrice'
 export default {
   name: 'itemProduct',
+  mixins: [mixinFindIndex, mixinFormatPrice],
   props: {
     itemProduct: {
       type: Object,
@@ -30,13 +33,14 @@ export default {
       }
     }
   },
-  data () {
-    return {}
-  },
   methods: {
+    // deleteItem () {
+    //   let data = this.itemProduct.id
+    //   this.$emit('deleteItemParent', data)
+    // },
     deleteItem () {
-      let data = this.itemProduct.id
-      this.$emit('deleteItemParent', data)
+      let idItem = this.itemProduct.id
+      this.$store.commit('getId', idItem)
     },
     toggleLikeItem () {
       let id = this.itemProduct.id
@@ -45,7 +49,21 @@ export default {
       this.$emit('listToggleLike', sttLike, id)
     },
     addToCard (idItem) {
-      this.$emit('listAddToCard', idItem)
+      let quantity = {quantity: 1}
+      let listProducts = this.$store.state.listProducts
+      let idItemx = this.findIndex(idItem)
+      let itemCart = {...listProducts[idItemx], ...quantity}
+      this.$store.dispatch('addToCarts', itemCart)
+
+      //   let {listProducts, listCarts} = this
+      //   let valIndex = this.findIndex(idItem)
+      //   let itemCart = listProducts[valIndex]
+      //   listCarts.push(itemCart)
+      //   this.cartCount++
+      // this.isNoticeAddCart = !this.isNoticeAddCart
+      // setTimeout(function () {
+      //   this.isNoticeAddCart = false
+      // }.bind(this), 3000)
     },
     toDetail () {
       this.$router.push('/detailProduct/' + this.itemProduct.id)

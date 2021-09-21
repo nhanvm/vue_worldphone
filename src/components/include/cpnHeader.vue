@@ -1,7 +1,7 @@
 <template>
   <header>
-    <nav class='navbar navbar-expand-lg navbar-light bg-light'>
-      <router-link class='navbar-brand' to='/'>Navbar</router-link>
+    <nav class='navbar navbar-expand-lg navbar-light'>
+      <router-link class='navbar-brand' to='/'>{{showTitle}}</router-link>
       <button
         class='navbar-toggler'
         type='button'
@@ -42,8 +42,8 @@
             </div>
           </li>
           <li class='nav-item'>
-            <a class='nav-link' href='#' tabindex='-1' aria-disabled='true'
-              >Contact</a
+            <router-link class='nav-link' to='/contact' tabindex='-1' aria-disabled='true'
+              >Contact</router-link
             >
           </li>
         </ul>
@@ -61,15 +61,19 @@
 import searchGlobal from './../actions/searchGlobal.vue'
 export default {
   name: 'cpnHeader',
-  props: {
-    cartCount: {
-      type: Number
-    }
-  },
   components: {
     searchGlobal
   },
-  methods: {}
+  methods: {},
+  computed: {
+    showTitle () {
+      return this.$store.state.title
+    },
+    cartCount () {
+      let listCartsLength = this.$store.state.listCarts.length
+      return listCartsLength
+    }
+  }
 }
 </script>
 

@@ -2,12 +2,10 @@
   <div class="cpnListProducts">
     <filterProducts @listFilterProductVal="listHandleFilterProductVal" />
     <div class='row'>
-      <itemProduct v-for="itemProduct in listProducts"
+      <itemProduct v-for="itemProduct in getListProduct"
           v-bind:key="itemProduct.id"
           v-bind:itemProduct="itemProduct"
-          v-on:listToggleLike="listHandleToggleLike"
-          v-on:listAddToCard="listHandleAddToCard"
-          v-on:deleteItemParent="handleDeleteItem">
+          v-on:listToggleLike="listHandleToggleLike">
       </itemProduct>
     </div>
   </div>
@@ -18,13 +16,12 @@ import itemProduct from './itemProduct'
 import filterProducts from './actions/filterProducts'
 export default {
   name: 'listProducts',
+  data () {
+    return {
+      listProducts: this.$store.state.listProducts
+    }
+  },
   props: {
-    listProducts: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
     title: String,
     url: String
   },
@@ -33,20 +30,41 @@ export default {
     filterProducts
   },
   methods: {
-    handleDeleteItem (data) {
-      this.$emit('homeDeleteItem', data)
-    },
+    // handleDeleteItem (data) {
+    //   this.$emit('homeDeleteItem', data)
+    // },
     toggleLikeList (data, id) {
       this.$emit('toggleLikeApp', data, id)
     },
-    listHandleAddToCard (idItem) {
-      this.$emit('homeAddToCard', idItem)
-    },
+    // listHandleAddToCard (idItem) {
+    //   this.$emit('homeAddToCard', idItem)
+    // },
     listHandleToggleLike (data, id) {
       this.$emit('homeToggleLike', data, id)
     },
     listHandleFilterProductVal (data) {
       this.$emit('homeFilterProductVal', data)
+    },
+    findIndex (id) {
+      let listProducts = this.listProducts
+      let valIndex
+      listProducts.forEach(function (item, index) {
+        if (item.id === id) {
+          valIndex = index
+        }
+      })
+      return valIndex
+    }
+  },
+  computed: {
+    getListProduct () {
+      let listProducts = this.$store.state.listProducts
+      let valueId = this.$store.state.getId
+      var indexId = this.findIndex(valueId)
+      if (valueId !== '') {
+        listProducts.splice(indexId, 1)
+      }
+      return this.$store.state.listProducts
     }
   }
 }

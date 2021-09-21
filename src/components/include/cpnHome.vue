@@ -1,9 +1,7 @@
 <template>
   <div>
-    <listProducts :listProducts="listProducts"
+    <listProducts
     @homeFilterProductVal="homeHandleFilterProductVal"
-    @homeDeleteItem="homeHandleDeleteItem"
-    @homeAddToCard="homeHandleAddToCard"
     @homeToggleLike="homeHandleToggleLike"
     />
   </div>
@@ -22,12 +20,12 @@ export default {
     }
   },
   methods: {
-    homeHandleDeleteItem (data) {
-      this.$emit('appdeleteItemParent', data)
-    },
-    homeHandleAddToCard (idItem) {
-      this.$emit('appAddToCart', idItem)
-    },
+    // homeHandleDeleteItem (data) {
+    //   this.$emit('appdeleteItemParent', data)
+    // },
+    // homeHandleAddToCard (idItem) {
+    //   this.$emit('appAddToCart', idItem)
+    // },
     homeHandleToggleLike (data, id) {
       this.$emit('appToggleLike', data, id)
     },

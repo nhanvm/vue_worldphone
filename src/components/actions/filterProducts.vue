@@ -13,6 +13,9 @@ export default {
     valHandleFilter (e) {
       let valFilter = e.target.value
       this.$emit('listFilterProductVal', valFilter)
+    },
+    handleIncre () {
+      return this.$store.state.result++
     }
   }
 }

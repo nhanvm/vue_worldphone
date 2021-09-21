@@ -5,8 +5,9 @@
         <!-- Card -->
         <div class="mb-3">
           <div class="pt-4 wish-list">
-            <h5 class="mb-4">Cart (<span>{{listCarts.length}}</span> items)</h5>
-            <div v-if='listCarts.length > 0'><itemCart v-for="cart in listCarts" :key="cart.id" :cart="cart" /></div>
+            <h5 class="mb-4">Cart (<span>{{valListCarts.length}}</span> items)</h5>
+            <div v-if='valListCarts.length > 0'>
+              <itemCart v-for="cart in valListCarts" :key="cart.id" :cart="cart" /></div>
             <p v-else>Your cart is empty. <router-link to="/">Go to Shop.</router-link></p>
             <hr class="mb-4" />
             <p class="text-primary mb-0">
@@ -31,7 +32,8 @@ export default {
   name: 'listCart',
   data () {
     return {
-      totalPriceInCart: 0
+      totalPriceInCart: 0,
+      listCarts: this.$store.state.listCarts
     }
   },
   components: {
@@ -40,9 +42,6 @@ export default {
     inforPay
   },
   props: {
-    listCarts: {
-      type: Array
-    }
   },
   // calcular //
   computed: {
@@ -51,10 +50,13 @@ export default {
       let totalPriceInCart = this.totalPriceInCart
       if (listCarts) {
         listCarts.forEach((item, i) => {
-          totalPriceInCart += item.price
+          totalPriceInCart += item.price * item.quantity
         })
         return totalPriceInCart
       }
+    },
+    valListCarts () {
+      return this.listCarts
     }
   }
 }

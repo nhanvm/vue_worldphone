@@ -1,5 +1,5 @@
 <template>
-  <div class="row mb-4">
+  <div class="row mb-4" v-if='cart.quantity > 0'>
     <div class="col-md-5 col-lg-3 col-xl-3">
       <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
         <img
@@ -22,12 +22,14 @@
               <button
                 onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
                 class="minus decrease btnQuantity"
+                 @click="decrementCart(cart.id)"
               >
                 -
               </button>
-              <input class="quantity" min="0" name="quantity" value="1" type="number" />
+              <input class="quantity" min="0" name="quantity" :value="cart.quantity" type="number" />
               <button
                 onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                @click="incrementCart(cart.id)"
                 class="plus increase btnQuantity"
               >
                 +
@@ -41,10 +43,10 @@
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <a
-              href="#!"
+              @click="deleteCart(cart.id)"
               type="button"
               class="card-link-secondary small text-uppercase mr-3"
-              ><font-awesome-icon class="mr-1" :icon="['fas', 'trash-alt']" /> Remove item
+              ><font-awesome-icon class="mr-1" :icon="['fas', 'trash-alt']" /> Remove in cart
             </a>
             <a href="#!" type="button" class="card-link-secondary small text-uppercase"
               ><font-awesome-icon class="mr-1" :icon="['fas', 'heart']" /> Move to wish
@@ -52,7 +54,7 @@
             </a>
           </div>
           <p class="mb-0">
-            <span><strong id="summary">${{ cart.price }}</strong></span>
+            <span><strong id="summary">{{ priceFormat }}</strong></span>
           </p>
         </div>
       </div>
@@ -69,7 +71,46 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      totalPrice: 0,
+      listCarts: this.$store.state.listCarts
+    }
+  },
+  methods: {
+    findIndex (id) {
+      let {listCarts} = this
+      let valIndex
+      listCarts.forEach(function (item, index) {
+        if (item.id === id) {
+          valIndex = index
+        }
+      })
+      return valIndex
+    },
+    deleteCart (id) {
+      let indexCart = this.findIndex(id)
+      this.$store.commit('handleDeleteItemCart', indexCart)
+    },
+    incrementCart (id) {
+      let indexCart = this.findIndex(id)
+      this.$store.dispatch('incrementCart', {
+        number: 1,
+        indexCart
+      })
+    },
+    decrementCart (id) {
+      let indexCart = this.findIndex(id)
+      this.$store.dispatch('decrementCart', {
+        number: 1,
+        indexCart
+      })
+    }
+  },
+  computed: {
+    priceFormat () {
+      let priceFormat = this.cart.price * this.cart.quantity
+      return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(priceFormat)
+    }
   }
 }
 </script>

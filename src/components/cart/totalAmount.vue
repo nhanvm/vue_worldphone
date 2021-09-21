@@ -11,13 +11,13 @@
             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0"
           >
             Temporary amount
-            <span>${{getTotalPrice}}</span>
+            <span>{{ formatPrice(getTotalPrice) }}</span>
           </li>
           <li
             class="list-group-item d-flex justify-content-between align-items-center px-0"
           >
             Shipping
-            <span>${{shippingFee}}</span>
+            <span>{{ formatPrice(shippingFee) }}</span>
           </li>
           <li
             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3"
@@ -28,11 +28,11 @@
                 <p class="mb-0">(including VAT)</p>
               </strong>
             </div>
-            <span><strong>${{getTotalPriceFinal}}</strong></span>
+            <span><strong>{{ formatPrice(getTotalPriceFinal) }}</strong></span>
           </li>
         </ul>
 
-        <button type="button" class="btn btn-primary btn-block">go to checkout</button>
+        <router-link to="/checkout" class="btn btn-primary btn-block">go to checkout</router-link>
       </div>
     </div>
     <!-- Card -->
@@ -70,12 +70,15 @@
 </template>
 
 <script>
+import { mixinFormatPrice } from './../../mixins/minixFormatPrice'
+
 export default {
   data () {
     return {
       shippingFee: 11
     }
   },
+  mixins: [mixinFormatPrice],
   name: 'totalAmount',
   props: {
     getTotalPrice: Number
