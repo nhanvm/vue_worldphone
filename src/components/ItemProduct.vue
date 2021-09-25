@@ -22,6 +22,8 @@
 <script>
 import { mixinFindIndex } from './../mixins/mixinFindIndex'
 import { mixinFormatPrice } from './../mixins/minixFormatPrice'
+import axios from 'axios'
+
 export default {
   name: 'itemProduct',
   mixins: [mixinFindIndex, mixinFormatPrice],
@@ -32,6 +34,17 @@ export default {
         return []
       }
     }
+  },
+  data () {
+    return {
+      listProducts: []
+    }
+  },
+  mounted () {
+    axios
+      .get('https://614959d5035b3600175ba256.mockapi.io/listProducts')
+      .then(response =>
+        (this.listProducts = response.data))
   },
   methods: {
     // deleteItem () {
@@ -48,12 +61,15 @@ export default {
       sttLike = !this.itemProduct.like
       this.$emit('listToggleLike', sttLike, id)
     },
-    addToCard (idItem) {
+    addToCard (index) {
       let quantity = {quantity: 1}
-      let listProducts = this.$store.state.listProducts
-      let idItemx = this.findIndex(idItem)
-      let itemCart = {...listProducts[idItemx], ...quantity}
-      this.$store.dispatch('addToCarts', itemCart)
+      let listProducts = this.listProducts
+      let valIndex = this.findIndex(index)
+      let itemCart = {...listProducts[valIndex], ...quantity}
+      axios
+        .post('https://614959d5035b3600175ba256.mockapi.io/listCarts/', itemCart)
+        .then((response) => { console.log(response) }, (error) => { console.log(error) })
+      // this.$store.dispatch('addToCarts', itemCart)
 
       //   let {listProducts, listCarts} = this
       //   let valIndex = this.findIndex(idItem)

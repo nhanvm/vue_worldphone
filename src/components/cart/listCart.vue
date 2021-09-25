@@ -7,7 +7,7 @@
           <div class="pt-4 wish-list">
             <h5 class="mb-4">Cart (<span>{{valListCarts.length}}</span> items)</h5>
             <div v-if='valListCarts.length > 0'>
-              <itemCart v-for="cart in valListCarts" :key="cart.id" :cart="cart" /></div>
+              <itemCart v-for="cart in valListCarts" :key="cart.id" :cart="cart" :cartId="cart.id" /></div>
             <p v-else>Your cart is empty. <router-link to="/">Go to Shop.</router-link></p>
             <hr class="mb-4" />
             <p class="text-primary mb-0">
@@ -27,14 +27,21 @@
 import itemCart from './itemCart'
 import totalAmount from './totalAmount.vue'
 import inforPay from './inforPay.vue'
+import axios from 'axios'
 
 export default {
   name: 'listCart',
   data () {
     return {
       totalPriceInCart: 0,
-      listCarts: this.$store.state.listCarts
+      listCarts: []
     }
+  },
+  mounted () {
+    axios
+      .get('https://614959d5035b3600175ba256.mockapi.io/listCarts')
+      .then(response =>
+        (this.listCarts = response.data))
   },
   components: {
     itemCart,

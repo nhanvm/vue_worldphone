@@ -63,12 +63,16 @@
 </template>
 
 <script>
+// import axios from 'axios'
+
 export default {
   name: 'itemCart',
   props: {
     cart: {
       type: Object
-    }
+    },
+    cartId: String,
+    idCartDelete: 0
   },
   data () {
     return {
@@ -88,8 +92,9 @@ export default {
       return valIndex
     },
     deleteCart (id) {
-      let indexCart = this.findIndex(id)
-      this.$store.commit('handleDeleteItemCart', indexCart)
+      this.idCartDelete = id
+      // let indexCart = this.findIndex(id)
+      // this.$store.commit('handleDeleteItemCart', indexCart)
     },
     incrementCart (id) {
       let indexCart = this.findIndex(id)

@@ -50,7 +50,7 @@
         <searchGlobal />
         <div class="d-flex cart-count position-relative">
           <router-link to='/cart'><font-awesome-icon class="icon-cart text-success" :icon="['fas', 'cart-plus']" />
-          <span>{{cartCount}}</span></router-link>
+          <span>{{getCartCount}}</span></router-link>
         </div>
       </div>
     </nav>
@@ -59,18 +59,31 @@
 
 <script>
 import searchGlobal from './../actions/searchGlobal.vue'
+import axios from 'axios'
+
 export default {
   name: 'cpnHeader',
   components: {
     searchGlobal
   },
+  data () {
+    return {
+      cartCount: 0
+    }
+  },
   methods: {},
+  mounted () {
+    axios
+      .get('https://614959d5035b3600175ba256.mockapi.io/listCarts')
+      .then(response =>
+        (this.cartCount = response.data))
+  },
   computed: {
     showTitle () {
       return this.$store.state.title
     },
-    cartCount () {
-      let listCartsLength = this.$store.state.listCarts.length
+    getCartCount () {
+      let listCartsLength = this.cartCount.length
       return listCartsLength
     }
   }

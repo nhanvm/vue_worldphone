@@ -14,12 +14,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserSecret, faHeart, faHeartBroken, faCartPlus, faStar, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import axios from 'axios'
 
 library.add(faUserSecret, faHeart, faHeartBroken, faCartPlus, faStar, faTrashAlt)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
-Vue.use(VueRouter, Vuex)
+Vue.use(VueRouter, Vuex, axios)
 Vue.prototype._ = _
 
 const router = new VueRouter({

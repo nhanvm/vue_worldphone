@@ -8,40 +8,7 @@ export const store = new Vuex.Store({
   state: {
     getId: '',
     title: 'iPhone Store',
-    listProducts: [
-      {
-        id: uuidv1(),
-        name: 'Iphone 8',
-        img: 'iphone8.jpg',
-        style: 'Black',
-        price: 450,
-        like: true
-      },
-      {
-        id: uuidv1(),
-        name: 'Iphone XS',
-        img: 'iphoneXS-gold.jpg',
-        style: 'Gold',
-        price: 650,
-        like: false
-      },
-      {
-        id: uuidv1(),
-        name: 'Iphone 11',
-        img: 'iphone11.png',
-        style: 'Black',
-        price: 450,
-        like: true
-      },
-      {
-        id: uuidv1(),
-        name: 'Iphone 12',
-        img: 'iphone12.jpg',
-        style: 'Blue',
-        price: 1500,
-        like: true
-      }
-    ],
+    listProducts: [],
     listCarts: [
       {
         id: uuidv1(),
@@ -81,9 +48,9 @@ export const store = new Vuex.Store({
         state.listCarts.push(data)
       }
     },
-    handleDeleteItemCart (state, data) {
-      state.listCarts.splice(data, 1)
-    },
+    // handleDeleteItemCart (state, data) {
+    //   state.listCarts.splice(data, 1)
+    // },
     incrementCart (state, payload) {
       let {indexCart} = payload
       state.listCarts[indexCart].quantity += payload.number

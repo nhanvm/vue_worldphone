@@ -14,12 +14,21 @@
 <script>
 import itemProduct from './itemProduct'
 import filterProducts from './actions/filterProducts'
+import axios from 'axios'
+
 export default {
   name: 'listProducts',
   data () {
     return {
-      listProducts: this.$store.state.listProducts
+      listProducts: [],
+      list: []
     }
+  },
+  mounted () {
+    axios
+      .get('https://614959d5035b3600175ba256.mockapi.io/listProducts')
+      .then(response =>
+        (this.listProducts = response.data))
   },
   props: {
     title: String,
@@ -58,13 +67,13 @@ export default {
   },
   computed: {
     getListProduct () {
-      let listProducts = this.$store.state.listProducts
+      let listProducts = this.listProducts
       let valueId = this.$store.state.getId
       var indexId = this.findIndex(valueId)
       if (valueId !== '') {
         listProducts.splice(indexId, 1)
       }
-      return this.$store.state.listProducts
+      return this.listProducts
     }
   }
 }
