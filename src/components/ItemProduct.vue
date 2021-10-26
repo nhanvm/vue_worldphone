@@ -1,5 +1,5 @@
  <template>
-  <div class="col-md-3">
+  <div class="col-md-3 mb-4">
     <div class="card pt-5 pb-4 font-weight-bold rounded-5">
       <img :src="require(`@/assets/${itemProduct.img}`)" />
       <h5 class="card-title mt-5 font-weight-bold">
@@ -11,10 +11,7 @@
         <font-awesome-icon @click="toggleLikeItem" v-if='itemProduct.like === false' :icon="['fas', 'heart-broken']" />
         <font-awesome-icon @click="toggleLikeItem" v-else :icon="['fas', 'heart']" />
       </span>
-      <!-- <button type="button" class="close" aria-label="Close" v-on:click="deleteItem">
-        <span aria-hidden="true">&times;</span>
-      </button> -->
-      <button @click="addToCard(itemProduct.id)" type="button" class="btn btn-success mx-auto">Add To Cart</button>
+      <button @click="addToCart(itemProduct.id)" type="button" class="btn btn-success mx-auto">Add To Cart</button>
     </div>
   </div>
 </template>
@@ -33,24 +30,21 @@ export default {
       default () {
         return []
       }
+    },
+    listProducts: {
+      type: Array
+    },
+    listCarts: {
+      type: Array
     }
   },
   data () {
     return {
-      listProducts: []
+      // listCarts: []
+      cartCountIninial: this.$store.state.cartCount
     }
   },
-  mounted () {
-    axios
-      .get('https://614959d5035b3600175ba256.mockapi.io/listProducts')
-      .then(response =>
-        (this.listProducts = response.data))
-  },
   methods: {
-    // deleteItem () {
-    //   let data = this.itemProduct.id
-    //   this.$emit('deleteItemParent', data)
-    // },
     deleteItem () {
       let idItem = this.itemProduct.id
       this.$store.commit('getId', idItem)
@@ -61,28 +55,51 @@ export default {
       sttLike = !this.itemProduct.like
       this.$emit('listToggleLike', sttLike, id)
     },
-    addToCard (index) {
-      let quantity = {quantity: 1}
-      let listProducts = this.listProducts
-      let valIndex = this.findIndex(index)
-      let itemCart = {...listProducts[valIndex], ...quantity}
-      axios
-        .post('https://614959d5035b3600175ba256.mockapi.io/listCarts/', itemCart)
-        .then((response) => { console.log(response) }, (error) => { console.log(error) })
-      // this.$store.dispatch('addToCarts', itemCart)
+    async addToCart (idItem) {
+      let quantityCart
+      const bool = this.listCarts.some(i => parseInt(i.idproduct) === idItem)
+      if (bool) {
+        this.$emit('getListCarts')
+        this.listCarts.forEach(function (item) {
+          if (item.idproduct === idItem) {
+            quantityCart = item.quantity + 1
+            console.log(quantityCart)
+            axios.put(`https://614959d5035b3600175ba256.mockapi.io/listCarts/${item.id}`, {
+              quantity: quantityCart
+            })
+              .then(response => {
+                console.log(response)
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          }
+        })
+      } else {
+        let quantity = {quantity: 1}
+        let listProducts = this.listProducts
+        this.cartCountIninial = this.listProducts.length
+        let idItemx = this.findIndex(idItem)
+        let idproduct = {idproduct: this.listProducts[idItemx].id}
+        let itemCart = {...listProducts[idItemx], ...quantity, ...idproduct}
+        axios.post('https://614959d5035b3600175ba256.mockapi.io/listCarts/', itemCart)
+          .then((response) => { console.log(response); this.$emit('getListCarts') }, (error) => { console.log(error) })
+        // this.getListCart()
+        // this.isNoticeAddCart = !this.isNoticeAddCart
+        // setTimeout(function () {
+        //   this.isNoticeAddCart = false
+        // }.bind(this), 3000)
+      }
 
       //   let {listProducts, listCarts} = this
       //   let valIndex = this.findIndex(idItem)
       //   let itemCart = listProducts[valIndex]
       //   listCarts.push(itemCart)
       //   this.cartCount++
-      // this.isNoticeAddCart = !this.isNoticeAddCart
-      // setTimeout(function () {
-      //   this.isNoticeAddCart = false
-      // }.bind(this), 3000)
     },
     toDetail () {
-      this.$router.push('/detailProduct/' + this.itemProduct.id)
+      let urlDetail = this.itemProduct.name.replace(/\s/g, '-')
+      this.$router.push('/' + urlDetail + '/' + this.itemProduct.id)
     }
   }
 }

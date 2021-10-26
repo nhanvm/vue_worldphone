@@ -10,7 +10,7 @@
                 <figure class="view overlay rounded z-depth-1 main-img">
                   <a href="#"
                     data-size="710x823">
-                    <img :src="require(`@/assets/${detailProduct.img[selectedColor]}`)"
+                    <img :src="require(`@/assets/${detailProduct.data[0].img}`)"
                       class="img-fluid z-depth-1">
                   </a>
                 </figure>
@@ -19,18 +19,18 @@
           </div>
         </div>
         <div class="col-md-6">
-          <h1>Iphone Xs</h1>
+          <h1>{{detailProduct.data[0].name}}</h1>
           <p class="mb-2 text-muted text-uppercase small">Shirts</p>
           <starLike />
-          <p><span class="mr-1"><strong>${{detailProduct.price}}</strong></span></p>
-          <descriptionDetail />
+          <p><span class="mr-1"><strong>${{detailProduct.data[0].price}}</strong></span></p>
+          <descriptionDetail :color="detailProduct.data[0].style" />
           <hr>
           <div class="table-responsive mb-5">
             <table class="table table-sm table-borderless">
               <tbody>
                 <tr>
-                  <td class="pl-0 pb-0 w-25">Quantity</td>
-                  <td class="pb-0">Select Color</td>
+                  <td class="pl-0 pb-0 w-25">Quantity {{detailProduct.data[0].quantity}}</td>
+                  <td class="pb-0">Select Color {{detailProduct.data[0].style}}</td>
                 </tr>
                 <tr>
                   <td class="pl-0">
@@ -42,7 +42,7 @@
                         class="quantityonClick plus btn btn-primary">+</button>
                     </div>
                   </td>
-                  <selectColor @selectedColorDetail="handleSelectedColor" :detailProductColor="detailProduct.colors" />
+                  <!-- <selectColor @selectedColorDetail="handleSelectedColor" :detailProductColor="detailProduct.colors" /> -->
                 </tr>
               </tbody>
             </table>
@@ -60,26 +60,13 @@ import selectColor from './selectColor'
 import starLike from './starLike'
 import descriptionDetail from './descriptionDetail'
 import actionDetail from './actionDetail'
+import Product from './../../apis/Product'
 export default {
   name: 'detailProduct',
   data () {
     return {
       id: this.$route.params.id,
       detailProduct: {
-        id: this.id,
-        name: 'Iphone XS',
-        colors: [
-          'gold',
-          'red',
-          'white'
-        ],
-        img: [
-          'iphoneXS-gold.jpg',
-          'iphoneXS-white.jpg',
-          'iphoneXS-red.jpg'
-        ],
-        price: 650,
-        like: false
       },
       selectedColor: 0
     }
@@ -87,13 +74,22 @@ export default {
   props: {
     title: String
   },
+  mounted () {
+    this.getIdProduct()
+  },
   methods: {
-    handleTest () {
-      this.$emit('AppChangleTitle')
-    },
-    handleSelectedColor (data) {
-      this.selectedColor = data
+    async getIdProduct () {
+      let idproduct = this.$route.params.id
+      let responseDetail = await Product.show(idproduct)
+      this.detailProduct = responseDetail
+      console.log(this.detailProduct)
     }
+    // handleTest () {
+    //   this.$emit('AppChangleTitle')
+    // },
+    // handleSelectedColor (data) {
+    //   this.selectedColor = data
+    // }
   },
   components: {
     selectColor,

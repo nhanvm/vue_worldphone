@@ -4,15 +4,18 @@
     @homeFilterProductVal="homeHandleFilterProductVal"
     @homeToggleLike="homeHandleToggleLike"
     />
+    <pagination />
   </div>
 </template>
 
 <script>
 import listProducts from './../listProducts'
+import pagination from './../products/pagination.vue'
 export default {
   name: 'cpnHome',
   components: {
-    listProducts
+    listProducts,
+    pagination
   },
   props: {
     listProducts: {

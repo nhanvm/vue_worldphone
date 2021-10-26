@@ -9,12 +9,12 @@
       <table class="table table-sm table-borderless mb-0">
         <tbody>
           <tr>
-            <th class="pl-0 w-25" scope="row"><strong>Model</strong></th>
-            <td>Shirt 5407X</td>
+            <th class="pl-0 w-25" scope="row"><strong>Memory</strong></th>
+            <td>256 Gb</td>
           </tr>
           <tr>
             <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
-            <td>Black</td>
+            <td>{{color}}</td>
           </tr>
           <tr>
             <th class="pl-0 w-25" scope="row"><strong>Delivery</strong></th>
@@ -28,7 +28,10 @@
 
 <script>
 export default {
-  name: 'descriptionDetail'
+  name: 'descriptionDetail',
+  props: {
+    color: String
+  }
 }
 </script>
 

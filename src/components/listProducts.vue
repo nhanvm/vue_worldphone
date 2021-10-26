@@ -3,7 +3,10 @@
     <filterProducts @listFilterProductVal="listHandleFilterProductVal" />
     <div class='row'>
       <itemProduct v-for="itemProduct in getListProduct"
+          v-bind:listProducts="listProducts"
+          v-bind:listCarts="listCarts"
           v-bind:key="itemProduct.id"
+          @getListCarts="getListCarts"
           v-bind:itemProduct="itemProduct"
           v-on:listToggleLike="listHandleToggleLike">
       </itemProduct>
@@ -14,21 +17,24 @@
 <script>
 import itemProduct from './itemProduct'
 import filterProducts from './actions/filterProducts'
-import axios from 'axios'
+import Product from './../apis/Product'
+import Cart from './../apis/Cart'
+// import allx from './../apis/Product'
+// import axios from 'axios'
 
 export default {
   name: 'listProducts',
   data () {
     return {
       listProducts: [],
-      list: []
+      listCarts: [],
+      list: [],
+      cartCount: 0
     }
   },
   mounted () {
-    axios
-      .get('https://614959d5035b3600175ba256.mockapi.io/listProducts')
-      .then(response =>
-        (this.listProducts = response.data))
+    this.getListProducts()
+    this.getListCarts()
   },
   props: {
     title: String,
@@ -39,15 +45,19 @@ export default {
     filterProducts
   },
   methods: {
-    // handleDeleteItem (data) {
-    //   this.$emit('homeDeleteItem', data)
-    // },
+    async getListProducts () {
+      let responseProducts = await Product.all()
+      this.listProducts = responseProducts.data
+    },
+    async getListCarts () {
+      let responseCarts = await Cart.all()
+      this.listCarts = responseCarts.data
+      this.cartCount = responseCarts.data.length
+      this.$store.dispatch('actGetCartCount', this.cartCount)
+    },
     toggleLikeList (data, id) {
       this.$emit('toggleLikeApp', data, id)
     },
-    // listHandleAddToCard (idItem) {
-    //   this.$emit('homeAddToCard', idItem)
-    // },
     listHandleToggleLike (data, id) {
       this.$emit('homeToggleLike', data, id)
     },
@@ -67,12 +77,6 @@ export default {
   },
   computed: {
     getListProduct () {
-      let listProducts = this.listProducts
-      let valueId = this.$store.state.getId
-      var indexId = this.findIndex(valueId)
-      if (valueId !== '') {
-        listProducts.splice(indexId, 1)
-      }
       return this.listProducts
     }
   }
@@ -82,8 +86,5 @@ export default {
 <style>
 h1 {
   padding: 30px 0
-}
-.cpnListProducts {
-  margin-top: 50px;
 }
 </style>

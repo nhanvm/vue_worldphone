@@ -1,6 +1,7 @@
 <template>
   <!-- Footer -->
   <footer class="page-footer font-small elegant-color">
+    <button style="display: none;" @click="handleChangeTitle" type="button">Change Title</button>
     <div class="bg-primary ">
       <div class="container">
         <div class="text-white">
@@ -158,7 +159,11 @@
 <script>
 export default {
   name: 'cpnFooter',
-  methods: {}
+  methods: {
+    handleChangeTitle () {
+      this.$store.dispatch('changeTitleGlobal')
+    }
+  }
 }
 </script>
 

@@ -10,7 +10,7 @@ export const routes = [
   { path: '/', name: 'cpnHome', component: cpnHome },
   { path: '/cpnFooter', name: 'cpnFooter', component: cpnFooter, props: this.title },
   { path: '/cart', name: 'listCart', component: listCart },
-  { path: '/detailProduct/:id', name: 'detailProduct', component: detailProduct, props: this.title },
+  { path: '/:name/:id', name: 'detailProduct', component: detailProduct, props: this.title },
   { path: '/checkout', name: 'checkout', component: checkout },
   { path: '/contact', name: 'contact', component: contact },
   { path: '/contact_confirm/:id', name: 'contactConfirm', component: contactConfirm }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import uuidv1 from 'uuid'
+// import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -9,55 +9,40 @@ export const store = new Vuex.Store({
     getId: '',
     title: 'iPhone Store',
     listProducts: [],
-    listCarts: [
-      {
-        id: uuidv1(),
-        name: 'Iphone 12',
-        img: 'iphone12.jpg',
-        style: 'Blue',
-        price: 1500,
-        like: true,
-        quantity: 2
-      }
-    ]
+    listCarts: [],
+    cartCount: 0
   },
   getters: {
     changeTitle: state => {
       return state.title
+    },
+    getterCartCount: state => {
+      return state.cartCount
     }
   },
   mutations: {
-    changeTitleGlobal (state, val) {
-      state.title = 'val'
+    getAllProducts (state, data) {
+      state.listProducts = data
+    },
+    getAllCarts (state, data) {
+      state.listCarts = data
+    },
+    CHANGE_TITLE_GLOBAL (state, val) {
+      state.title = val
     },
     getId (state, id) {
       state.getId = id
     },
-    // add Cart
-    addToCarts (state, data) {
-      const bool = state.listCarts.some(i => i.id === data.id)
-      if (bool) {
-        let valIndex = 0
-        state.listCarts.forEach(function (item, index) {
-          if (item.id === data.id) {
-            valIndex = index
-            state.listCarts[valIndex].quantity += 1
-          }
-        })
-      } else {
-        state.listCarts.push(data)
-      }
+    getCartCount (state, number) {
+      state.cartCount = number
     },
-    // handleDeleteItemCart (state, data) {
-    //   state.listCarts.splice(data, 1)
-    // },
     incrementCart (state, payload) {
-      let {indexCart} = payload
+      let { indexCart } = payload
       state.listCarts[indexCart].quantity += payload.number
       // state.listCarts[indexCart].price += state.listCarts[indexCart].quantity
     },
     decrementCart (state, payload) {
-      let {indexCart} = payload
+      let { indexCart } = payload
       state.listCarts[indexCart].quantity -= payload.number
       // state.listCarts[indexCart].price *= state.listCarts[indexCart].quantity
       if (state.listCarts[indexCart].quantity === 0) {
@@ -66,8 +51,11 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    addToCarts (context, data) {
-      context.commit('addToCarts', data)
+    changeTitleGlobal (context) {
+      context.commit('CHANGE_TITLE_GLOBAL', 'xxx')
+    },
+    actGetCartCount (context, number) {
+      context.commit('getCartCount', number)
     },
     incrementCart ({ commit }, payload) {
       commit('incrementCart', {

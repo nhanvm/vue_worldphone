@@ -59,7 +59,7 @@
 
 <script>
 import searchGlobal from './../actions/searchGlobal.vue'
-import axios from 'axios'
+import Cart from './../../apis/Cart'
 
 export default {
   name: 'cpnHeader',
@@ -71,20 +71,21 @@ export default {
       cartCount: 0
     }
   },
-  methods: {},
   mounted () {
-    axios
-      .get('https://614959d5035b3600175ba256.mockapi.io/listCarts')
-      .then(response =>
-        (this.cartCount = response.data))
+    this.getAllCarts()
+  },
+  methods: {
+    async getAllCarts () {
+      let responseCart = await Cart.all()
+      this.$store.dispatch('actGetCartCount', responseCart.data.length)
+    }
   },
   computed: {
     showTitle () {
       return this.$store.state.title
     },
     getCartCount () {
-      let listCartsLength = this.cartCount.length
-      return listCartsLength
+      return this.$store.getters.getterCartCount
     }
   }
 }

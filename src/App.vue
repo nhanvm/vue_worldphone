@@ -1,6 +1,5 @@
 <template>
     <div id="app">
-      xxx
       <div v-if="isNoticeAddCart=== true" class="alert alert-success notice"
           :class="{ noticeAddcart : isNoticeAddCart }" role="alert">
           Successfully added to cart

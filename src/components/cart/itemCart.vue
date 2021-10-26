@@ -63,7 +63,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'itemCart',
@@ -72,12 +72,12 @@ export default {
       type: Object
     },
     cartId: String,
-    idCartDelete: 0
+    idCartDelete: 0,
+    listCarts: Array
   },
   data () {
     return {
-      totalPrice: 0,
-      listCarts: this.$store.state.listCarts
+      totalPrice: 0
     }
   },
   methods: {
@@ -91,24 +91,38 @@ export default {
       })
       return valIndex
     },
-    deleteCart (id) {
-      this.idCartDelete = id
-      // let indexCart = this.findIndex(id)
-      // this.$store.commit('handleDeleteItemCart', indexCart)
+    async deleteCart (id) {
+      await axios.delete(`https://614959d5035b3600175ba256.mockapi.io/listCarts/${id}`)
+      this.$emit('getAllCarts')
     },
-    incrementCart (id) {
+    async incrementCart (id) {
       let indexCart = this.findIndex(id)
-      this.$store.dispatch('incrementCart', {
-        number: 1,
-        indexCart
+      let quantity = this.listCarts[indexCart].quantity + 1
+      await axios.put(`https://614959d5035b3600175ba256.mockapi.io/listCarts/${this.listCarts[indexCart].id}`, {
+        quantity: quantity
       })
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
-    decrementCart (id) {
+    async decrementCart (id) {
       let indexCart = this.findIndex(id)
-      this.$store.dispatch('decrementCart', {
-        number: 1,
-        indexCart
+      let quantity = this.listCarts[indexCart].quantity - 1
+      await axios.put(`https://614959d5035b3600175ba256.mockapi.io/listCarts/${this.listCarts[indexCart].id}`, {
+        quantity: quantity
       })
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      if (quantity < 1) {
+        this.deleteCart(this.listCarts[indexCart].id)
+      }
     }
   },
   computed: {
