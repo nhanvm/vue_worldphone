@@ -70,18 +70,6 @@ export default {
         }
       })
     }
-    // add to cart //
-    // appHandleAddToCart (idItem) {
-    //   let {listProducts, listCarts} = this
-    //   let valIndex = this.findIndex(idItem)
-    //   let itemCart = listProducts[valIndex]
-    //   listCarts.push(itemCart)
-    //   this.cartCount++
-    //   this.isNoticeAddCart = !this.isNoticeAddCart
-    //   setTimeout(function () {
-    //     this.isNoticeAddCart = false
-    //   }.bind(this), 3000)
-    // }
   },
   computed: {
     filteredBlogs () {

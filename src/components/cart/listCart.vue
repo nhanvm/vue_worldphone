@@ -7,7 +7,7 @@
           <div class="pt-4 wish-list">
             <h5 class="mb-4">Cart (<span>{{valListCarts.length}}</span> items)</h5>
             <div v-if='valListCarts.length > 0'>
-              <itemCart :listCarts="listCarts" @getAllCarts="getAllCarts" v-for="cart in valListCarts" :key="cart.id" :cart="cart" :cartId="cart.id" /></div>
+              <itemCart :listCarts="listCarts" @getAllCarts="getAllCarts" v-for="cart in valListCarts" :key="cart.id" :quantityItem="cart.quantity" :cart="cart" :cartId="cart.id" /></div>
             <p v-else>Your cart is empty. <router-link to="/">Go to Shop.</router-link></p>
             <hr class="mb-4" />
             <p class="text-primary mb-0">

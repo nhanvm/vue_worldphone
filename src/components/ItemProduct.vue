@@ -1,11 +1,11 @@
  <template>
   <div class="col-md-3 mb-4">
     <div class="card pt-5 pb-4 font-weight-bold rounded-5">
-      <img :src="require(`@/assets/${itemProduct.img}`)" />
+      <img :src="require(`@/assets/${itemProduct.img[0].src}`)" />
       <h5 class="card-title mt-5 font-weight-bold">
         <span @click="toDetail">{{ itemProduct.name }}</span>
       </h5>
-      <p class="card-text text-info">{{ itemProduct.style }}</p>
+      <p class="card-text text-info">{{ itemProduct.img[0].color }}</p>
       <p>Price: <span class="text-danger">{{ formatPrice(itemProduct.price) }}</span></p>
       <span class="like">
         <font-awesome-icon @click="toggleLikeItem" v-if='itemProduct.like === false' :icon="['fas', 'heart-broken']" />
@@ -90,12 +90,6 @@ export default {
         //   this.isNoticeAddCart = false
         // }.bind(this), 3000)
       }
-
-      //   let {listProducts, listCarts} = this
-      //   let valIndex = this.findIndex(idItem)
-      //   let itemCart = listProducts[valIndex]
-      //   listCarts.push(itemCart)
-      //   this.cartCount++
     },
     toDetail () {
       let urlDetail = this.itemProduct.name.replace(/\s/g, '-')

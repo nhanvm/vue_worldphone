@@ -1,7 +1,7 @@
 <template>
   <div class="detailProduct">
     <section class="mb-5">
-      <div class="row">
+      <div class="row" v-for="item in detailProduct.data" :key="item.id">
         <div class="col-md-6 mb-4 mb-md-0">
           <div id="mdb-lightbox-ui"></div>
           <div class="mdb-lightbox">
@@ -10,7 +10,7 @@
                 <figure class="view overlay rounded z-depth-1 main-img">
                   <a href="#"
                     data-size="710x823">
-                    <img :src="require(`@/assets/${detailProduct.data[0].img}`)"
+                    <img :src="require(`@/assets/${item.img[selectedColor].src}`)"
                       class="img-fluid z-depth-1">
                   </a>
                 </figure>
@@ -19,30 +19,20 @@
           </div>
         </div>
         <div class="col-md-6">
-          <h1>{{detailProduct.data[0].name}}</h1>
+          <h1>{{item.name}}</h1>
           <p class="mb-2 text-muted text-uppercase small">Shirts</p>
           <starLike />
-          <p><span class="mr-1"><strong>${{detailProduct.data[0].price}}</strong></span></p>
-          <descriptionDetail :color="detailProduct.data[0].style" />
+          <p><span class="mr-1"><strong>${{item.price}}</strong></span></p>
+          <descriptionDetail :color="item.img[selectedColor].color" />
           <hr>
-          <div class="table-responsive mb-5">
+          <div class="table-responsive mb-3">
             <table class="table table-sm table-borderless">
               <tbody>
                 <tr>
-                  <td class="pl-0 pb-0 w-25">Quantity {{detailProduct.data[0].quantity}}</td>
-                  <td class="pb-0">Select Color {{detailProduct.data[0].style}}</td>
+                  <td class="pb-0">Select Color</td>
                 </tr>
                 <tr>
-                  <td class="pl-0">
-                    <div class="def-number-input number-input safari_only mb-0 d-flex">
-                      <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                        class="quantityonClick minus btn btn-primary">-</button>
-                      <input class="quantity" min="0" name="quantity" value="1" type="number">
-                      <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                        class="quantityonClick plus btn btn-primary">+</button>
-                    </div>
-                  </td>
-                  <!-- <selectColor @selectedColorDetail="handleSelectedColor" :detailProductColor="detailProduct.colors" /> -->
+                  <selectColor @selectedColorDetail="handleSelectedColor" :listStyle="item.img" />
                 </tr>
               </tbody>
             </table>
@@ -79,17 +69,13 @@ export default {
   },
   methods: {
     async getIdProduct () {
-      let idproduct = this.$route.params.id
+      let idproduct = await this.$route.params.id
       let responseDetail = await Product.show(idproduct)
       this.detailProduct = responseDetail
-      console.log(this.detailProduct)
+    },
+    handleSelectedColor (data) {
+      this.selectedColor = data
     }
-    // handleTest () {
-    //   this.$emit('AppChangleTitle')
-    // },
-    // handleSelectedColor (data) {
-    //   this.selectedColor = data
-    // }
   },
   components: {
     selectColor,

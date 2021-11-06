@@ -4,8 +4,9 @@
       <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
         <img
           class="img-fluid w-100"
-          :src="require(`@/assets/${ cart.img }`)"
+          :src="require(`@/assets/${ cart.img[0].src }`)"
           alt="Sample"
+          @click="toDetail"
         />
       </div>
     </div>
@@ -13,9 +14,9 @@
       <div>
         <div class="d-flex justify-content-between">
           <div>
-            <h5>{{ cart.name }}</h5>
+            <h5 @click="toDetail">{{ cart.name }}</h5>
             <p class="mb-3 text-muted text-uppercase small">Shirt - blue</p>
-            <p class="mb-4 text-muted text-uppercase small">Color: blue</p>
+            <p class="mb-4 text-muted text-uppercase small">Color: {{ cart.img[0].color }}</p>
           </div>
           <div>
             <div class="def-number-input number-input safari_only mb-0 w-100">
@@ -54,7 +55,7 @@
             </a>
           </div>
           <p class="mb-0">
-            <span><strong id="summary">{{ priceFormat }}</strong></span>
+            <span><strong id="summary">{{ priceTotal }}</strong></span>
           </p>
         </div>
       </div>
@@ -77,7 +78,8 @@ export default {
   },
   data () {
     return {
-      totalPrice: 0
+      totalPrice: 0,
+      quantityTmp: 0
     }
   },
   methods: {
@@ -97,7 +99,7 @@ export default {
     },
     async incrementCart (id) {
       let indexCart = this.findIndex(id)
-      let quantity = this.listCarts[indexCart].quantity + 1
+      let quantity = ++this.listCarts[indexCart].quantity
       await axios.put(`https://614959d5035b3600175ba256.mockapi.io/listCarts/${this.listCarts[indexCart].id}`, {
         quantity: quantity
       })
@@ -107,10 +109,11 @@ export default {
         .catch(error => {
           console.log(error)
         })
+      this.quantityTmp = quantity
     },
     async decrementCart (id) {
       let indexCart = this.findIndex(id)
-      let quantity = this.listCarts[indexCart].quantity - 1
+      let quantity = --this.listCarts[indexCart].quantity
       await axios.put(`https://614959d5035b3600175ba256.mockapi.io/listCarts/${this.listCarts[indexCart].id}`, {
         quantity: quantity
       })
@@ -123,10 +126,14 @@ export default {
       if (quantity < 1) {
         this.deleteCart(this.listCarts[indexCart].id)
       }
+    },
+    toDetail () {
+      let urlDetail = this.cart.name.replace(/\s/g, '-')
+      this.$router.push('/' + urlDetail + '/' + this.cart.idproduct)
     }
   },
   computed: {
-    priceFormat () {
+    priceTotal () {
       let priceFormat = this.cart.price * this.cart.quantity
       return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(priceFormat)
     }
@@ -137,6 +144,9 @@ export default {
 <style scoped>
   .card-link-secondary {
     color: #6c757d;
+  }
+  img, h5 {
+    cursor: pointer;
   }
   .btnQuantity {
     background-color: transparent;
