@@ -1,8 +1,8 @@
 <template>
   <div class="cpnListProducts">
     <filterProducts @listFilterProductVal="listHandleFilterProductVal" />
-    <div class='row'>
-      <itemProduct v-for="itemProduct in getListProduct"
+    <div class='row text-center'>
+      <itemProduct v-for="itemProduct in getListProduct2"
           v-bind:listProducts="listProducts"
           v-bind:listCarts="listCarts"
           v-bind:key="itemProduct.id"
@@ -29,7 +29,8 @@ export default {
       listProducts: [],
       listCarts: [],
       list: [],
-      cartCount: 0
+      cartCount: 0,
+      valSearch: ''
     }
   },
   mounted () {
@@ -62,7 +63,7 @@ export default {
       this.$emit('homeToggleLike', data, id)
     },
     listHandleFilterProductVal (data) {
-      this.$emit('homeFilterProductVal', data)
+      this.valSearch = data
     },
     findIndex (id) {
       let listProducts = this.listProducts
@@ -76,7 +77,12 @@ export default {
     }
   },
   computed: {
-    getListProduct () {
+    getListProduct2 () {
+      if (this.valSearch !== '') {
+        return this.listProducts.filter((item) => {
+          return item.name.toLowerCase().match(this.valSearch)
+        })
+      }
       return this.listProducts
     }
   }

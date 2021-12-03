@@ -1,8 +1,6 @@
 <template>
   <div>
     <listProducts
-    @homeFilterProductVal="homeHandleFilterProductVal"
-    @homeToggleLike="homeHandleToggleLike"
     />
     <pagination />
   </div>
@@ -29,12 +27,12 @@ export default {
     // homeHandleAddToCard (idItem) {
     //   this.$emit('appAddToCart', idItem)
     // },
-    homeHandleToggleLike (data, id) {
-      this.$emit('appToggleLike', data, id)
-    },
-    homeHandleFilterProductVal (data) {
-      this.$emit('appFilterProductVal', data)
-    }
+    // homeHandleToggleLike (data, id) {
+    //   this.$emit('appToggleLike', data, id)
+    // },
+    // homeHandleFilterProductVal (data) {
+    //   this.$emit('appFilterProductVal', data)
+    // }
   }
 }
 </script>

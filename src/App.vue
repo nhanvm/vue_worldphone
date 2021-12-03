@@ -14,9 +14,6 @@
         </div>
         <div class="container pt-5">
           <router-view
-            @appFilterProductVal="appHandleFilterProductVal"
-            @appToggleLike="appHandleToggleLike"
-            :listProducts="filteredBlogs"
             />
         </div>
         <div class="row">
@@ -32,9 +29,15 @@
 import cpnHeader from './components/include/cpnHeader'
 import listProducts from './components/listProducts'
 import detailProduct from './components/detailProduct/detailProduct'
-import CpnFooter from './components/include/cpnFooter.vue'
+import CpnFooter from './components/include/cpnFooter'
 export default {
   name: 'App',
+  // metaInfo: {
+  //   // if no subcomponents specify a metaInfo.title, this title will be used
+  //   title: 'Default Title',
+  //   // all titles will be injected into this template
+  //   titleTemplate: '%s | My Awesome Webapp'
+  // },
   data () {
     return {
       isNoticeAddCart: false,
@@ -49,37 +52,8 @@ export default {
     CpnFooter
   },
   methods: {
-    appHandleFilterProductVal (data) {
-      this.search = data
-    },
-    findIndex (id) {
-      let listProducts = this.listProducts
-      let valIndex
-      listProducts.forEach(function (item, index) {
-        if (item.id === id) {
-          valIndex = index
-        }
-      })
-      return valIndex
-    },
-    appHandleToggleLike (data, id) {
-      let listProducts = this.listProducts
-      listProducts.forEach(function (item, index) {
-        if (item.id === id) {
-          item.like = data
-        }
-      })
-    }
   },
   computed: {
-    filteredBlogs () {
-      if (this.search !== '') {
-        return this.listProducts.filter((item) => {
-          return item.name.toLowerCase().match(this.search)
-        })
-      }
-      return this.listProducts
-    }
   }
 }
 
@@ -90,7 +64,6 @@ export default {
   font-family: "Arizonia", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   position: relative;
 }

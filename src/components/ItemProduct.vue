@@ -1,5 +1,5 @@
  <template>
-  <div class="col-md-3 mb-4">
+  <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
     <div class="card pt-5 pb-4 font-weight-bold rounded-5">
       <img :src="require(`@/assets/${itemProduct.img[0].src}`)" />
       <h5 class="card-title mt-5 font-weight-bold">

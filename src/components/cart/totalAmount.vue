@@ -38,7 +38,7 @@
     <!-- Card -->
 
     <!-- Card -->
-    <div class="mb-3">
+    <!-- <div class="mb-3">
       <div class="pt-4">
         <a
           class="dark-grey-text d-flex justify-content-between"
@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Card -->
   </div>
 </template>

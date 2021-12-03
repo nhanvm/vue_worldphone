@@ -49,6 +49,7 @@
         </ul>
         <searchGlobal />
         <div class="d-flex cart-count position-relative">
+          <router-link to='/customers/registration'><font-awesome-icon class="icon-user text-info" :icon="['fas', 'user']" /></router-link>
           <router-link to='/cart'><font-awesome-icon class="icon-cart text-success" :icon="['fas', 'cart-plus']" />
           <span>{{getCartCount}}</span></router-link>
         </div>
@@ -95,17 +96,22 @@ export default {
   .cart-count {
     font-weight: bold;
   }
+  .cart-count a {
+    font-size: 26px;
+    padding: 0px 5px;
+  }
   .cart-count span{
     color: white;
     position: absolute;
-    right: 0;
-    top: -10px;
+    right: 5px;
+    top: -5px;
     background: red;
     width: 25px;
     height: 25px;
     border-radius: 50%;
     line-height: 25px;
     font-size: 10px;
+    text-align: center;
   }
   .icon-cart {
     margin-right: 20px;
