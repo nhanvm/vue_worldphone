@@ -6,6 +6,7 @@ import checkout from './components/checkout/checkout'
 import contact from './components/contact/contact'
 import contactConfirm from './components/contact/contact_confirm'
 import registration from './components/customers/registration'
+import login from './components/customers/login'
 
 export const routes = [
   { path: '/', name: 'cpnHome', component: cpnHome },
@@ -16,6 +17,9 @@ export const routes = [
   { path: '/contact_confirm/:id', name: 'contactConfirm', component: contactConfirm },
   {
     path: '/customers', component: registration, children: [{ path: 'registration', name: 'registration', component: registration }]
+  },
+  {
+    path: '/customers', component: login, children: [{ path: 'login', name: 'login', component: login }]
   },
   {
     path: '/:name', component: detailProduct, children: [{ path: ':id', name: 'detailProduct', component: detailProduct }]

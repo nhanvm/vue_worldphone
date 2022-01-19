@@ -84,12 +84,8 @@ export default {
         let itemCart = {...listProducts[idItemx], ...quantity, ...idproduct}
         axios.post('https://614959d5035b3600175ba256.mockapi.io/listCarts/', itemCart)
           .then((response) => { console.log(response); this.$emit('getListCarts') }, (error) => { console.log(error) })
-        // this.getListCart()
-        // this.isNoticeAddCart = !this.isNoticeAddCart
-        // setTimeout(function () {
-        //   this.isNoticeAddCart = false
-        // }.bind(this), 3000)
       }
+      this.$emit('noticeAddCart')
     },
     toDetail () {
       let urlDetail = this.itemProduct.name.replace(/\s/g, '-')
@@ -97,6 +93,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>

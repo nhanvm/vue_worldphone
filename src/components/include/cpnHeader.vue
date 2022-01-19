@@ -49,7 +49,7 @@
         </ul>
         <searchGlobal />
         <div class="d-flex cart-count position-relative">
-          <router-link to='/customers/registration'><font-awesome-icon class="icon-user text-info" :icon="['fas', 'user']" /></router-link>
+          <router-link to='/customers/login'><font-awesome-icon class="icon-user text-info" :icon="['fas', 'user']" /></router-link>
           <router-link to='/cart'><font-awesome-icon class="icon-cart text-success" :icon="['fas', 'cart-plus']" />
           <span>{{getCartCount}}</span></router-link>
         </div>
@@ -79,6 +79,9 @@ export default {
     async getAllCarts () {
       let responseCart = await Cart.all()
       this.$store.dispatch('actGetCartCount', responseCart.data.length)
+    },
+    handleChangeTitles () {
+      console.log(this.$store)
     }
   },
   computed: {

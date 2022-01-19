@@ -15,12 +15,14 @@ import { faUserSecret, faHeart, faHeartBroken, faCartPlus, faStar, faTrashAlt, f
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios'
+import Notifications from 'vue-notification'
 
 library.add(faUserSecret, faHeart, faHeartBroken, faCartPlus, faStar, faTrashAlt, faUser)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 Vue.use(VueRouter, Vuex, axios)
+Vue.use(Notifications)
 Vue.prototype._ = _
 
 const router = new VueRouter({

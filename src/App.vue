@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+      <notifications group="foo" position="bottom right" />
       <div v-if="isNoticeAddCart=== true" class="alert alert-success notice"
           :class="{ noticeAddcart : isNoticeAddCart }" role="alert">
           Successfully added to cart
@@ -30,6 +31,7 @@ import cpnHeader from './components/include/cpnHeader'
 import listProducts from './components/listProducts'
 import detailProduct from './components/detailProduct/detailProduct'
 import CpnFooter from './components/include/cpnFooter'
+
 export default {
   name: 'App',
   // metaInfo: {
@@ -55,6 +57,9 @@ export default {
   },
   computed: {
   }
+  // created () {
+  //  this.$notify('Hello user!')
+  // }
 }
 
 </script>

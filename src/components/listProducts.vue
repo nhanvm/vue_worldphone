@@ -8,7 +8,8 @@
           v-bind:key="itemProduct.id"
           @getListCarts="getListCarts"
           v-bind:itemProduct="itemProduct"
-          v-on:listToggleLike="listHandleToggleLike">
+          v-on:listToggleLike="listHandleToggleLike"
+          v-on:noticeAddCart="handleNoticeAddCart(itemProduct.name)">
       </itemProduct>
     </div>
   </div>
@@ -65,6 +66,16 @@ export default {
     listHandleFilterProductVal (data) {
       this.valSearch = data
     },
+    handleNoticeAddCart (nameProduct) {
+      this.$notify({
+        group: 'foo',
+        title: nameProduct + ' added to cart',
+        text: 'Please go to cart to pay',
+        type: 'success',
+        duration: 3000,
+        speed: 1000
+      })
+    },
     findIndex (id) {
       let listProducts = this.listProducts
       let valIndex
@@ -83,7 +94,7 @@ export default {
           return item.name.toLowerCase().match(this.valSearch)
         })
       }
-      return this.listProducts
+      return this.listProducts.slice(2,5)
     }
   }
 }
