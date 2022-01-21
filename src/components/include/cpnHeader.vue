@@ -10,7 +10,7 @@
         aria-controls='navbarSupportedContent'
         aria-expanded='false'
         aria-label='Toggle navigation'
-      >123
+      >
         <span class='navbar-toggler-icon'></span>
       </button>
 
