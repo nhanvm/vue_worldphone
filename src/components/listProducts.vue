@@ -94,7 +94,7 @@ export default {
           return item.name.toLowerCase().match(this.valSearch)
         })
       }
-      return this.listProducts.slice(2,5)
+      return this.listProducts
     }
   }
 }
