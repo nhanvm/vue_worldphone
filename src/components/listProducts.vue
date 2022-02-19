@@ -2,7 +2,7 @@
   <div class="cpnListProducts">
     <filterProducts @listFilterProductVal="listHandleFilterProductVal" />
     <div class='row text-center'>
-      <itemProduct v-for="itemProduct in getListProduct2"
+      <itemProduct v-for="itemProduct in getListProductInitial"
           v-bind:listProducts="listProducts"
           v-bind:listCarts="listCarts"
           v-bind:key="itemProduct.id"
@@ -20,8 +20,6 @@ import itemProduct from './itemProduct'
 import filterProducts from './actions/filterProducts'
 import Product from './../apis/Product'
 import Cart from './../apis/Cart'
-// import allx from './../apis/Product'
-// import axios from 'axios'
 
 export default {
   name: 'listProducts',
@@ -31,10 +29,13 @@ export default {
       listCarts: [],
       list: [],
       cartCount: 0,
-      valSearch: ''
+      valSearch: '',
+      perPage: this.$store.state.perPage,
+      page: this.$store.state.pageNumberProducts,
+      listProductShow: []
     }
   },
-  mounted () {
+  created () {
     this.getListProducts()
     this.getListCarts()
   },
@@ -50,6 +51,7 @@ export default {
     async getListProducts () {
       let responseProducts = await Product.all()
       this.listProducts = responseProducts.data
+      this.$store.dispatch('actGetAllProducts', this.listProducts.length)
     },
     async getListCarts () {
       let responseCarts = await Cart.all()
@@ -88,13 +90,14 @@ export default {
     }
   },
   computed: {
-    getListProduct2 () {
+    getListProductInitial () {
+      let getPagePresent = this.$store.state.pageNumberProducts
       if (this.valSearch !== '') {
         return this.listProducts.filter((item) => {
           return item.name.toLowerCase().match(this.valSearch)
         })
       }
-      return this.listProducts
+      return this.listProducts.slice(this.perPage * getPagePresent - this.perPage, this.perPage * getPagePresent)
     }
   }
 }

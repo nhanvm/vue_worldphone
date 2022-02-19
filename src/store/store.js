@@ -8,9 +8,11 @@ export const store = new Vuex.Store({
   state: {
     getId: '',
     title: 'iPhone Store',
-    listProducts: [],
+    totalProducts: [],
     listCarts: [],
-    cartCount: 0
+    cartCount: 0,
+    perPage: 8,
+    pageNumberProducts: 1
   },
   getters: {
     changeTitle: state => {
@@ -21,8 +23,11 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
-    getAllProducts (state, data) {
-      state.listProducts = data
+    GET_NUMBER_PAGE_PRODUCTS (state, data) {
+      state.pageNumberProducts = data
+    },
+    GET_ALL_PRODUCTS (state, data) {
+      state.totalProducts = data
     },
     getAllCarts (state, data) {
       state.listCarts = data
@@ -51,6 +56,12 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    actGetPageProduct (context, page) {
+      context.commit('GET_NUMBER_PAGE_PRODUCTS', page)
+    },
+    actGetAllProducts (context, number) {
+      context.commit('GET_ALL_PRODUCTS', number)
+    },
     changeTitleGlobal (context) {
       context.commit('CHANGE_TITLE_GLOBAL', 'xxx')
     },
