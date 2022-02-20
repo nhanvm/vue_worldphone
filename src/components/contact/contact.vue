@@ -7,7 +7,7 @@
           <div class="alert alert-danger" role="alert" v-if="noticeErorr">
             {{ noticeErorr }}
           </div>
-          <form method="get" action="contact_confirm.vue">
+          <form method="get" id="formContact">
             <div class="form-row mt-5">
               <div class="form-group col-md-6">
                 <label for="inputFullname">Full name</label>
@@ -132,7 +132,7 @@
             <button
               type="submit"
               class="btn btn-primary mt-3"
-              @click.prevent="submited"
+              @click.prevent="sendContact"
             >
               Send Contact
             </button>
@@ -215,6 +215,10 @@ export default {
         this.noticeErorr = 'Please enter all values marked with *'
         e.preventDefault()
       }
+    },
+    sendContact () {
+      let formData = new FormData(document.getElementById('formContact'))
+      console.log(formData.body)
     }
   }
 }
