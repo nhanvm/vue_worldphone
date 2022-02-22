@@ -92,25 +92,6 @@
                 </div>
               </div>
             </div>
-            <div class="form-group">
-              <div class="form-row">
-                <div class="col-md-6">
-                  <label for="inputPhone">Type request</label>
-                  <span class="text-danger">*</span>
-                  <select
-                    id="typlerequest"
-                    name="typeRequest"
-                    class="form-control"
-                    v-model="contact.typeRequest"
-                  >
-                    <option selected>Choose...</option>
-                    <option v-for="(item, index) in typeRequest" :key="index">
-                      {{ item }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
             <div class="form-row">
               <div class="form-group col-12">
                 <label for="inputPhone">Content</label>
@@ -169,10 +150,6 @@
                     <td>{{ contact.phone }}</td>
                   </tr>
                   <tr>
-                    <th>Type request</th>
-                    <td>{{ contact.typeRequest }}</td>
-                  </tr>
-                  <tr>
                     <th>Content</th>
                     <td>{{ contact.content }}</td>
                   </tr>
@@ -188,6 +165,7 @@
 
 <script>
 import uuidv1 from 'uuid'
+import axios from 'axios'
 export default {
   name: 'contact',
   data () {
@@ -217,8 +195,14 @@ export default {
       }
     },
     sendContact () {
-      let formData = new FormData(document.getElementById('formContact'))
-      console.log(formData.body)
+      var form = document.getElementById('formContact')
+      var formData = new FormData(form)
+      axios.post('https://614959d5035b3600175ba256.mockapi.io/contact', formData)
+      .then((response) => {
+        console.log(response)
+      }, (response) => {
+        console.log('error')
+      });
     }
   }
 }
