@@ -4,7 +4,7 @@ import cpnFooter from './components/include/cpnFooter'
 import listCart from './components/cart/listCart'
 import checkout from './components/checkout/checkout'
 import contact from './components/contact/contact'
-// import contactConfirm from './components/contact/contact_confirm'
+import ContactComplete from './components/contact/ContactComplete'
 import registration from './components/customers/registration'
 import login from './components/customers/login'
 
@@ -14,7 +14,7 @@ export const routes = [
   { path: '/cart', name: 'listCart', component: listCart },
   { path: '/checkout', name: 'checkout', component: checkout },
   { path: '/contact', name: 'contact', component: contact },
-  { path: '/contact_confirm/', name: 'contact', component: contact },
+  { path: '/ContactComplete', name: 'ContactComplete', component: ContactComplete },
   {
     path: '/customers', component: registration, children: [{ path: 'registration', name: 'registration', component: registration }]
   },
