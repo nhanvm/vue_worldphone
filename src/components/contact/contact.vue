@@ -132,7 +132,7 @@
             <button
               type="submit"
               class="btn btn-primary mt-3"
-              @click.prevent="sendContact"
+              @click.prevent="sendContactDaff"
             >
               Send Contact
             </button>
@@ -178,6 +178,13 @@
                   </tr>
                 </tbody>
               </table>
+              <button
+                type="submit"
+                class="btn btn-primary mt-3"
+                @click.prevent="sendContact"
+              >
+                Send Contact
+              </button>
             </form>
           </div>
         </div>
@@ -187,16 +194,17 @@
 </template>
 
 <script>
-import uuidv1 from 'uuid'
+import axios from 'axios'
 export default {
   name: 'contact',
   data () {
     return {
       contact: {
-        id: uuidv1(),
+        id: '',
         fullname: '',
         address: '',
         gender: 'male',
+        email: '',
         typeRequest: '',
         content: '',
         phone: ''
@@ -207,23 +215,29 @@ export default {
     }
   },
   methods: {
-    submited (e) {
+    sendContactDaff (e) {
       if (this.contact.fullname && this.contact.address && this.contact.typeRequest) {
         this.isSubmit = true
-        // this.$router.push('/contact_confirm22/')
+        this.$router.push('/contact_confirm/')
       } else {
         this.noticeErorr = 'Please enter all values marked with *'
         e.preventDefault()
       }
     },
     sendContact () {
-      var form = document.getElementById('formContact')
-      var formData = new FormData(form)
       axios.post('https://614959d5035b3600175ba256.mockapi.io/contact', {
         id: this.contact.id,
         fullname: this.contact.fullname,
         address: this.contact.address,
         gender: this.contact.gender,
+        email: this.contact.email,
+        typeRequest: this.contact.typeRequest,
+        phone: this.contact.phone,
+        content: this.contact.content
+      }).then((response) => {
+        console.log(response)
+      }, (error) => {
+        console.log(error)
       })
     }
   }
