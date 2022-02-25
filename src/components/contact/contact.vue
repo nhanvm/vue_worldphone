@@ -6,16 +6,16 @@
           <li class="step is-active" data-step="1">
             Daff
           </li>
-          <li class="step" :class="{ 'is-active': isSubmit }" data-step="2" >
+          <li class="step" :class="{ 'is-active': isSubmitDaff }" data-step="2" >
             Confirm
           </li>
-          <li class="step" data-step="3">
+          <li class="step" :class="{ 'is-active': isSubmitConfirm }" data-step="3">
             Complete
           </li>
         </ol>
       </div>
     </div>
-    <div class="row justify-content-center" v-if="!isSubmit">
+    <div class="row justify-content-center" v-if="!isSubmitDaff">
       <div class="col-md-9 text-left">
         <div class="cpnContact">
           <h2 class="text-center">Contact</h2>
@@ -140,7 +140,7 @@
             </div>
             <button
               type="submit"
-              class="btn btn-primary mt-3 btn-md d-block ml-auto"
+              class="btn btn-success mt-3 btn-md d-block ml-auto"
               @click.prevent="sendContactDaff"
             >
               Send Contact
@@ -149,18 +149,23 @@
         </div>
       </div>
     </div>
-    <div class="row mt-5" v-if="isSubmit">
-      <ContactConfirm :contact="contact" />
+    <div class="row mt-5" v-if="isSubmitDaff && !isSubmitConfirm">
+      <ContactConfirm :contact="contact" @propsIsSubmitConfirm="handleIsSubmitConfirm" />
+    </div>
+    <div class="row mt-5" v-if="isSubmitConfirm">
+      <ContactComplete />
     </div>
   </div>
 </template>
 
 <script>
 import ContactConfirm from './ContactConfirm'
+import ContactComplete from './ContactComplete'
 export default {
   name: 'contact',
   components: {
-    ContactConfirm
+    ContactConfirm,
+    ContactComplete
   },
   data () {
     return {
@@ -176,17 +181,21 @@ export default {
       },
       noticeErorr: '',
       typeRequest: ['Cart', 'Bonus', 'Sale'],
-      isSubmit: false
+      isSubmitDaff: false,
+      isSubmitConfirm: false
     }
   },
   methods: {
     sendContactDaff (e) {
       if (this.contact.fullname && this.contact.email && this.contact.typeRequest) {
-        this.isSubmit = true
+        this.isSubmitDaff = true
       } else {
         this.noticeErorr = 'Please enter all values marked with *'
         e.preventDefault()
       }
+    },
+    handleIsSubmitConfirm () {
+      this.isSubmitConfirm = !this.isSubmitConfirm
     }
   }
 }

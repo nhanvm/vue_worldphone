@@ -36,13 +36,22 @@
               </tr>
             </tbody>
           </table>
-          <button
-            type="submit"
-            class="btn btn-primary mt-3"
-            @click.prevent="sendContact"
-          >
-            Send Contact
-          </button>
+          <div class="row justify-content-center">
+            <button
+              type="submit"
+              class="btn btn-danger mt-3 mr-4"
+              @click.prevent="backContactDaff"
+            >
+              Back Contact
+            </button>
+            <button
+              type="submit"
+              class="btn btn-success mt-3 ml-4"
+              @click.prevent="sendContact"
+            >
+              Send Contact
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -72,6 +81,7 @@ export default {
       }, (error) => {
         console.log(error)
       })
+      this.$emit('propsIsSubmitConfirm')
     }
   }
 }
