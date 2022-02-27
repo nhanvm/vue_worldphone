@@ -36,22 +36,20 @@
               </tr>
             </tbody>
           </table>
-          <div class="row justify-content-center">
-            <button
-              type="submit"
-              class="btn btn-danger mt-3 mr-4"
-              @click.prevent="backContactDaff"
-            >
-              Back Contact
-            </button>
-            <button
-              type="submit"
-              class="btn btn-success mt-3 ml-4"
-              @click.prevent="sendContact"
-            >
-              Send Contact
-            </button>
-          </div>
+          <button
+            type="submit"
+            class="btn btn-success mt-5 d-block py-3 btn-contactconfirm"
+            @click.prevent="sendContact"
+          >
+            Send Contact
+          </button>
+          <button
+            type="submit"
+            class="btn btn-outline-danger mt-4 d-block py-3 btn-contactconfirm"
+            @click.prevent="backContactDaff"
+          >
+            Back Contact
+          </button>
         </form>
       </div>
     </div>
@@ -82,7 +80,19 @@ export default {
         console.log(error)
       })
       this.$emit('propsIsSubmitConfirm')
+    },
+    // back input contact page
+    backContactDaff () {
+      this.$emit('propsBackContactDaff')
     }
   }
 }
 </script>
+
+<style>
+  .btn-contactconfirm {
+    width: 320px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+</style>

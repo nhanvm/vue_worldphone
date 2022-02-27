@@ -140,7 +140,7 @@
             </div>
             <button
               type="submit"
-              class="btn btn-success mt-3 btn-md d-block ml-auto"
+              class="btn btn-success mt-3 d-block ml-auto py-3 btn-sencontact"
               @click.prevent="sendContactDaff"
             >
               Send Contact
@@ -150,7 +150,7 @@
       </div>
     </div>
     <div class="row mt-5" v-if="isSubmitDaff && !isSubmitConfirm">
-      <ContactConfirm :contact="contact" @propsIsSubmitConfirm="handleIsSubmitConfirm" />
+      <ContactConfirm :contact="contact" @propsIsSubmitConfirm="handleIsSubmitConfirm" @propsBackContactDaff="handleBackContactDaff" />
     </div>
     <div class="row mt-5" v-if="isSubmitConfirm">
       <ContactComplete />
@@ -196,12 +196,20 @@ export default {
     },
     handleIsSubmitConfirm () {
       this.isSubmitConfirm = !this.isSubmitConfirm
+    },
+    handleBackContactDaff () {
+      this.isSubmitDaff = false
     }
   }
 }
 </script>
 
 <style scoped>
+  .btn-sencontact {
+    width: 320px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
   .steps {
     list-style: none;
     margin: 0;

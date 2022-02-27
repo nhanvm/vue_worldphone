@@ -12,14 +12,17 @@
           v-on:noticeAddCart="handleNoticeAddCart(itemProduct.name)">
       </itemProduct>
     </div>
+    <Spinner v-if="loadingAnimation" size="large" message="Loading..." />
   </div>
 </template>
 
 <script>
 import itemProduct from './itemProduct'
 import filterProducts from './actions/filterProducts'
-import Product from './../apis/Product'
+// import Product from './../apis/Product'
 import Cart from './../apis/Cart'
+import Spinner from 'vue-simple-spinner'
+import axios from 'axios'
 
 export default {
   name: 'listProducts',
@@ -32,7 +35,8 @@ export default {
       valSearch: '',
       perPage: this.$store.state.perPage,
       page: this.$store.state.pageNumberProducts,
-      listProductShow: []
+      listProductShow: [],
+      loadingAnimation: true
     }
   },
   created () {
@@ -45,11 +49,22 @@ export default {
   },
   components: {
     itemProduct,
-    filterProducts
+    filterProducts,
+    Spinner
   },
   methods: {
     async getListProducts () {
-      let responseProducts = await Product.all()
+      let responseProducts = await axios.get('https://614959d5035b3600175ba256.mockapi.io/listProducts')
+        .then(response => {
+          this.loadingAnimation = false
+          return response
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(
+          //
+        )
       this.listProducts = responseProducts.data
       this.$store.dispatch('actGetAllProducts', this.listProducts.length)
     },
@@ -68,6 +83,7 @@ export default {
     listHandleFilterProductVal (data) {
       this.valSearch = data
     },
+    // notice after product add to cart
     handleNoticeAddCart (nameProduct) {
       this.$notify({
         group: 'foo',

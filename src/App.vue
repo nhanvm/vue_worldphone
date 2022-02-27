@@ -14,8 +14,7 @@
           </div>
         </div>
         <div class="container pt-5">
-          <router-view
-            />
+          <router-view />
         </div>
         <div class="row">
           <div class="col-12 px-0">
@@ -34,12 +33,6 @@ import CpnFooter from './components/include/cpnFooter'
 
 export default {
   name: 'App',
-  // metaInfo: {
-  //   // if no subcomponents specify a metaInfo.title, this title will be used
-  //   title: 'Default Title',
-  //   // all titles will be injected into this template
-  //   titleTemplate: '%s | My Awesome Webapp'
-  // },
   data () {
     return {
       isNoticeAddCart: false,
@@ -52,16 +45,8 @@ export default {
     listProducts,
     detailProduct,
     CpnFooter
-  },
-  methods: {
-  },
-  computed: {
   }
-  // created () {
-  //  this.$notify('Hello user!')
-  // }
 }
-
 </script>
 
 <style>

@@ -17,7 +17,7 @@
       <div class='collapse navbar-collapse' id='navbarSupportedContent'>
         <ul class='navbar-nav mr-auto'>
           <li class='nav-item active'>
-            <router-link class='nav-link' to='/'>Home</router-link>
+            <router-link class='nav-link' to='/' v-on:click="handleToHome">Home</router-link>
           </li>
           <li class='nav-item'>
             <a class='nav-link' href='#'>About</a>
@@ -82,6 +82,9 @@ export default {
     },
     handleChangeTitles () {
       console.log(this.$store)
+    },
+    handleToHome () {
+      console.log(123)
     }
   },
   computed: {
