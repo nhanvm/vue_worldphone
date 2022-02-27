@@ -11,13 +11,13 @@ import _ from 'lodash'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret, faHeart, faHeartBroken, faCartPlus, faStar, faTrashAlt, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faHeart, faHeartBroken, faCartPlus, faStar, faTrashAlt, faUser, faCheck } from '@fortawesome/free-solid-svg-icons'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios'
 import Notifications from 'vue-notification'
 
-library.add(faUserSecret, faHeart, faHeartBroken, faCartPlus, faStar, faTrashAlt, faUser)
+library.add(faUserSecret, faHeart, faHeartBroken, faCartPlus, faStar, faTrashAlt, faUser, faCheck)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false

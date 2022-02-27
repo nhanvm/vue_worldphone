@@ -89,7 +89,7 @@ export default {
     },
     toDetail () {
       let urlDetail = this.itemProduct.name.replace(/\s/g, '-')
-      this.$router.push('/' + urlDetail + '/' + this.itemProduct.id)
+      this.$router.push('/product/' + urlDetail + '/' + this.itemProduct.id)
     }
   }
 }

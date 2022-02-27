@@ -1,13 +1,28 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center" v-if="!isSubmit">
+    <div class="row justify-content-center my-5">
+      <div class="col-md-7">
+        <ol class="steps">
+          <li class="step is-active" data-step="1">
+            Daff
+          </li>
+          <li class="step" :class="{ 'is-active': isSubmitDaff }" data-step="2" >
+            Confirm
+          </li>
+          <li class="step" :class="{ 'is-active': isSubmitConfirm }" data-step="3">
+            Complete
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="row justify-content-center" v-if="!isSubmitDaff">
       <div class="col-md-9 text-left">
         <div class="cpnContact">
           <h2 class="text-center">Contact</h2>
           <div class="alert alert-danger" role="alert" v-if="noticeErorr">
             {{ noticeErorr }}
           </div>
-          <form method="get" action="contact_confirm.vue">
+          <form method="get" id="formContact">
             <div class="form-row mt-5">
               <div class="form-group col-md-6">
                 <label for="inputFullname">Full name</label>
@@ -123,16 +138,10 @@
                 ></textarea>
               </div>
             </div>
-            <!-- <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck" />
-                <label class="form-check-label" for="gridCheck"> Check me out </label>
-              </div>
-            </div> -->
             <button
               type="submit"
-              class="btn btn-primary mt-3"
-              @click.prevent="submited"
+              class="btn btn-success mt-3 d-block ml-auto py-3 btn-sencontact"
+              @click.prevent="sendContactDaff"
             >
               Send Contact
             </button>
@@ -140,84 +149,143 @@
         </div>
       </div>
     </div>
-    <div class="row mt-5" v-if="isSubmit">
-      <div class="container mt-5">
-        <div class="row justify-content-center">
-          <div class="col-md-9">
-            <form action="">
-              <input type="hidden" name="" v-model="contact.id">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <th class="border-0">Full name</th>
-                    <td class="border-0">{{ contact.fullname }}</td>
-                  </tr>
-                  <tr>
-                    <th>Address</th>
-                    <td>{{ contact.address }}</td>
-                  </tr>
-                  <tr>
-                    <th>Gender</th>
-                    <td>{{ contact.gender }}</td>
-                  </tr>
-                  <tr>
-                    <th>Email</th>
-                    <td>{{ contact.email }}</td>
-                  </tr>
-                  <tr>
-                    <th>Phone</th>
-                    <td>{{ contact.phone }}</td>
-                  </tr>
-                  <tr>
-                    <th>Type request</th>
-                    <td>{{ contact.typeRequest }}</td>
-                  </tr>
-                  <tr>
-                    <th>Content</th>
-                    <td>{{ contact.content }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </form>
-          </div>
-        </div>
-      </div>
+    <div class="row mt-5" v-if="isSubmitDaff && !isSubmitConfirm">
+      <ContactConfirm :contact="contact" @propsIsSubmitConfirm="handleIsSubmitConfirm" @propsBackContactDaff="handleBackContactDaff" />
+    </div>
+    <div class="row mt-5" v-if="isSubmitConfirm">
+      <ContactComplete />
     </div>
   </div>
 </template>
 
 <script>
-import uuidv1 from 'uuid'
+import ContactConfirm from './ContactConfirm'
+import ContactComplete from './ContactComplete'
 export default {
   name: 'contact',
+  components: {
+    ContactConfirm,
+    ContactComplete
+  },
   data () {
     return {
       contact: {
-        id: uuidv1(),
+        id: '',
         fullname: '',
         address: '',
         gender: 'male',
+        email: '',
         typeRequest: '',
         content: '',
         phone: ''
       },
       noticeErorr: '',
       typeRequest: ['Cart', 'Bonus', 'Sale'],
-      isSubmit: false
+      isSubmitDaff: false,
+      isSubmitConfirm: false
     }
   },
   methods: {
-    submited (e) {
-      if (this.contact.fullname && this.contact.address && this.contact.typeRequest) {
-        this.isSubmit = true
-        // this.$router.push('/contact_confirm22/')
+    sendContactDaff (e) {
+      if (this.contact.fullname && this.contact.email && this.contact.typeRequest) {
+        this.isSubmitDaff = true
       } else {
         this.noticeErorr = 'Please enter all values marked with *'
         e.preventDefault()
       }
+    },
+    handleIsSubmitConfirm () {
+      this.isSubmitConfirm = !this.isSubmitConfirm
+    },
+    handleBackContactDaff () {
+      this.isSubmitDaff = false
     }
   }
 }
 </script>
 
-<style></style>
+<style scoped>
+  .btn-sencontact {
+    width: 320px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    color: #929292;
+    height: 4rem;
+  }
+
+  .steps>.step {
+    position: relative;
+    display: table-cell;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6d6875;
+  }
+
+  .steps>.step:before {
+    content: attr(data-step);
+    display: block;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #e6e6e6;
+    color: #e6e6e6;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    margin-bottom: -4.2rem;
+    line-height: 1.9rem;
+    border-radius: 100%;
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .steps>.step:after {
+    content: '';
+    position: absolute;
+    display: block;
+    background: #e6e6e6;
+    width: 100%;
+    height: 0.125rem;
+    top: 1rem;
+    left: 50%;
+  }
+
+  .steps>.step:last-child:after {
+    display: none;
+  }
+
+  .steps>.step.is-complete {
+    color: #6d6875;
+  }
+
+  .steps>.step.is-complete:before {
+    content: '\2713';
+    color: #28a745 ;
+    background: #fef0e2;
+    border: 2px solid #28a745 ;
+  }
+
+  .steps>.step.is-complete:after {
+    background: #28a745 ;
+  }
+
+  .steps>.step.is-active {
+    font-size: 1.5rem;
+  }
+
+  .steps>.step.is-active:before {
+    color: #fff;
+    border: 2px solid #28a745 ;
+    background: #28a745 ;
+    margin-bottom: -4.9rem;
+  }
+</style>
