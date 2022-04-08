@@ -57,36 +57,17 @@
 
 <script>
 import { uuid } from 'vue-uuid'
+import axios from 'axios'
 export default {
   name: 'actionComment',
   data () {
-    return {
-      listComment: [
-        {
-          id: uuid.v1(),
-          avt: '',
-          name: 'Nhat',
-          time: 'on March 5th, 2014',
-          content: 'Hello this is a test comment and this comment is particularly very long and it goes on and on and on.',
-          status: true
-        },
-        {
-          id: uuid.v1(),
-          avt: '',
-          name: 'Yohei Umezu',
-          time: 'on March 5th, 2022',
-          content: 'Have you tried checking if your ResultsController@show returns the desired data?',
-          status: false
-        },
-        {
-          id: uuid.v1(),
-          avt: '',
-          name: 'Bhojendra Rauniyar',
-          time: 'on May 3th, 2022',
-          content: `Wasted almost one hour, didn't find a solution, so I wanted to contribute =)`,
-          status: true
-        }
-      ]
+  },
+  created() {
+
+  },
+  methods: {
+    async getListComment () {
+      let responseComment = await axios.get
     }
   }
 }
