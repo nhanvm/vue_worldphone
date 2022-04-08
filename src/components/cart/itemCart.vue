@@ -65,6 +65,7 @@
 
 <script>
 import axios from 'axios'
+import Cart from './../../apis/Cart'
 
 export default {
   name: 'itemCart',
@@ -94,7 +95,7 @@ export default {
       return valIndex
     },
     async deleteCart (id) {
-      await axios.delete(`https://614959d5035b3600175ba256.mockapi.io/listCarts/${id}`)
+      await Cart.delete(id)
       this.$emit('getAllCarts')
     },
     async incrementCart (id) {

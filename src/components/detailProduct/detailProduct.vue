@@ -40,7 +40,7 @@
           <actionDetail />
         </div>
       </div>
-
+      <actionComment />
     </section>
   </div>
 </template>
@@ -51,6 +51,7 @@ import starLike from './starLike'
 import descriptionDetail from './descriptionDetail'
 import actionDetail from './actionDetail'
 import Product from './../../apis/Product'
+import actionComment from './actionComment'
 export default {
   name: 'detailProduct',
   data () {
@@ -81,7 +82,8 @@ export default {
     selectColor,
     starLike,
     descriptionDetail,
-    actionDetail
+    actionDetail,
+    actionComment
   }
 }
 </script>

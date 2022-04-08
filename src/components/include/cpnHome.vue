@@ -1,5 +1,6 @@
 <template>
   <div>
+    <SliderHome />
     <listProducts
     />
     <pagination />
@@ -7,13 +8,15 @@
 </template>
 
 <script>
+import SliderHome from './SliderHome'
 import listProducts from './../listProducts'
 import pagination from './../products/pagination.vue'
 export default {
   name: 'cpnHome',
   components: {
     listProducts,
-    pagination
+    pagination,
+    SliderHome
   },
   props: {
     listProducts: {

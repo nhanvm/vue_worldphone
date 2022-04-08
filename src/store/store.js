@@ -35,18 +35,18 @@ export const store = new Vuex.Store({
     CHANGE_TITLE_GLOBAL (state, val) {
       state.title = val
     },
-    getId (state, id) {
+    GET_ID (state, id) {
       state.getId = id
     },
-    getCartCount (state, number) {
+    GET_CART_COUNT (state, number) {
       state.cartCount = number
     },
-    incrementCart (state, payload) {
+    INCREMENTCART (state, payload) {
       let { indexCart } = payload
       state.listCarts[indexCart].quantity += payload.number
       // state.listCarts[indexCart].price += state.listCarts[indexCart].quantity
     },
-    decrementCart (state, payload) {
+    DECREMENTCART (state, payload) {
       let { indexCart } = payload
       state.listCarts[indexCart].quantity -= payload.number
       // state.listCarts[indexCart].price *= state.listCarts[indexCart].quantity
@@ -66,16 +66,16 @@ export const store = new Vuex.Store({
       context.commit('CHANGE_TITLE_GLOBAL', 'xxx')
     },
     actGetCartCount (context, number) {
-      context.commit('getCartCount', number)
+      context.commit('GET_CART_COUNT', number)
     },
     incrementCart ({ commit }, payload) {
-      commit('incrementCart', {
+      commit('INCREMENTCART', {
         number: payload.number,
         indexCart: payload.indexCart
       })
     },
     decrementCart ({ commit }, payload) {
-      commit('decrementCart', {
+      commit('DECREMENTCART', {
         number: payload.number,
         indexCart: payload.indexCart
       })

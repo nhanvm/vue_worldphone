@@ -63,7 +63,6 @@ export default {
         this.listCarts.forEach(function (item) {
           if (item.idproduct === idItem) {
             quantityCart = item.quantity + 1
-            console.log(quantityCart)
             axios.put(`https://614959d5035b3600175ba256.mockapi.io/listCarts/${item.id}`, {
               quantity: quantityCart
             })
