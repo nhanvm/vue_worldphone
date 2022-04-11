@@ -12,62 +12,47 @@
     </div>
     <div class="actionBox">
       <ul class="commentList">
-        <li>
+        <li @getAllCarts="getListComment" v-for="item in valListComment" :key="item.id" v-if="item.status">
           <div class="commenterImage">
             <img src="http://lorempixel.com/50/50/people/6" />
           </div>
           <div class="commentText">
-            <p class="">Hello this is a test comment.</p>
-            <span class="date sub-text">on March 5th, 2014</span>
-          </div>
-        </li>
-        <li>
-          <div class="commenterImage">
-            <img src="http://lorempixel.com/50/50/people/7" />
-          </div>
-          <div class="commentText">
-            <p class="">
-              Hello this is a test comment and this comment is particularly very
-              long and it goes on and on and on.
-            </p>
-            <span class="date sub-text">on March 5th, 2014</span>
-          </div>
-        </li>
-        <li>
-          <div class="commenterImage">
-            <img src="http://lorempixel.com/50/50/people/9" />
-          </div>
-          <div class="commentText">
-            <p class="">Hello this is a test comment.</p>
-            <span class="date sub-text">on March 5th, 2014</span>
+            <p class="">{{ item.name }}</p>
+            <p class="fs-10"><small>{{ item.content }}</small></p>
+            <span class="date sub-text">{{ item.time }}</span>
           </div>
         </li>
       </ul>
-      <form class="form-inline" role="form">
-        <div class="form-group col-md-10">
-          <input class="form-control w-100" type="text" placeholder="Your comments" />
-        </div>
-        <div class="form-group">
-          <button class="btn btn-success">Add</button>
-        </div>
-      </form>
+      <AddComment />
     </div>
   </div>
 </template>
 
 <script>
-import { uuid } from 'vue-uuid'
-import axios from 'axios'
+import Comment from './../../../apis/Comment'
+import AddComment from './addComment'
 export default {
   name: 'actionComment',
   data () {
+    return {
+      listCommnent: []
+    }
   },
-  created() {
-
+  created () {
+    this.getListComment()
   },
   methods: {
     async getListComment () {
-      let responseComment = await axios.get
+      let responseComment = await Comment.all()
+      this.listCommnent = responseComment.data
+    }
+  },
+  components: {
+    AddComment
+  },
+  computed: {
+    valListComment () {
+      return this.listCommnent
     }
   }
 }

@@ -51,7 +51,7 @@ import starLike from './starLike'
 import descriptionDetail from './descriptionDetail'
 import actionDetail from './actionDetail'
 import Product from './../../apis/Product'
-import actionComment from './actionComment'
+import actionComment from './Comment/actionComment'
 export default {
   name: 'detailProduct',
   data () {
