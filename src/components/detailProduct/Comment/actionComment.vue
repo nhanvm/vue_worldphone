@@ -12,7 +12,7 @@
     </div>
     <div class="actionBox">
       <ul class="commentList">
-        <li @getAllCarts="getListComment" v-for="item in valListComment" :key="item.id" v-if="item.status">
+        <li v-for="item in valListComment" :key="item.id">
           <div class="commenterImage">
             <img src="http://lorempixel.com/50/50/people/6" />
           </div>
@@ -23,7 +23,7 @@
           </div>
         </li>
       </ul>
-      <AddComment />
+      <AddComment @getListCommentProps="handleGetListComment" />
     </div>
   </div>
 </template>
@@ -45,6 +45,9 @@ export default {
     async getListComment () {
       let responseComment = await Comment.all()
       this.listCommnent = responseComment.data
+    },
+    handleGetListComment () {
+      this.getListComment()
     }
   },
   components: {
@@ -52,7 +55,7 @@ export default {
   },
   computed: {
     valListComment () {
-      return this.listCommnent
+      return this.listCommnent.filter(comment => comment.status === true)
     }
   }
 }
