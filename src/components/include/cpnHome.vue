@@ -1,9 +1,8 @@
 <template>
   <div>
     <SliderHome />
-    <listProducts
-    />
-    <pagination />
+    <listProducts @acthLoadingAnimation="handleLoadingAnimation" />
+    <pagination v-if="handleLoadingAnimation" />
   </div>
 </template>
 
@@ -23,19 +22,12 @@ export default {
       type: Array
     }
   },
-  methods: {
-    // homeHandleDeleteItem (data) {
-    //   this.$emit('appdeleteItemParent', data)
-    // },
-    // homeHandleAddToCard (idItem) {
-    //   this.$emit('appAddToCart', idItem)
-    // },
-    // homeHandleToggleLike (data, id) {
-    //   this.$emit('appToggleLike', data, id)
-    // },
-    // homeHandleFilterProductVal (data) {
-    //   this.$emit('appFilterProductVal', data)
-    // }
+  computed: {
+    handleLoadingAnimation () {
+      return val => {
+        return val
+      }
+    }
   }
 }
 </script>

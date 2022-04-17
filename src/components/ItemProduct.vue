@@ -1,7 +1,7 @@
  <template>
   <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
     <div class="card pt-5 pb-4 font-weight-bold rounded-5">
-      <img :src="require(`@/assets/${itemProduct.img[0].src}`)" />
+      <img :src="require(`@/assets/${getSrcImage(itemProduct.img[0].src)}`)" />
       <h5 class="card-title mt-5 font-weight-bold">
         <span @click="toDetail">{{ itemProduct.name }}</span>
       </h5>
@@ -44,7 +44,19 @@ export default {
       cartCountIninial: this.$store.state.cartCount
     }
   },
+  mounted () {
+    this.getSrcImage()
+  },
   methods: {
+    getSrcImage (img) {
+      let defaultSrc = 'no-image.png'
+      let getPath = `${img}`
+      try {
+        return getPath
+      } catch (error) {
+        return defaultSrc
+      }
+    },
     deleteItem () {
       let idItem = this.itemProduct.id
       this.$store.commit('getId', idItem)

@@ -3,13 +3,13 @@
     <filterProducts @listFilterProductVal="listHandleFilterProductVal" />
     <div class='row text-center'>
       <itemProduct v-for="itemProduct in getListProductInitial"
-          v-bind:listProducts="listProducts"
-          v-bind:listCarts="listCarts"
-          v-bind:key="itemProduct.id"
+          :listProducts="listProducts"
+          :listCarts="listCarts"
+          :key="itemProduct.id"
           @getListCarts="getListCarts"
-          v-bind:itemProduct="itemProduct"
-          v-on:listToggleLike="listHandleToggleLike"
-          v-on:noticeAddCart="handleNoticeAddCart(itemProduct.name)">
+          :itemProduct="itemProduct"
+          @:listToggleLike="listHandleToggleLike"
+          @:noticeAddCart="handleNoticeAddCart(itemProduct.name)">
       </itemProduct>
     </div>
     <Spinner v-if="loadingAnimation" size="large" message="Loading..." />
@@ -42,6 +42,10 @@ export default {
   created () {
     this.getListProducts()
     this.getListCarts()
+    this.$emit('handleLoadingAnimation', this.loadingAnimation)
+  },
+  beforeMount () {
+    this.$emit('acthLoadingAnimation', this.loadingAnimation)
   },
   props: {
     title: String,
@@ -73,6 +77,9 @@ export default {
       this.listCarts = responseCarts.data
       this.cartCount = responseCarts.data.length
       this.$store.dispatch('actGetCartCount', this.cartCount)
+    },
+    myFuncitonx () {
+      this.$emit('hanldeAhihi', 123)
     },
     toggleLikeList (data, id) {
       this.$emit('toggleLikeApp', data, id)
